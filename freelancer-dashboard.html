@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freelancer Platform</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0f0f13;
+      --surface: #16161f;
+      --surface2: #1e1e2a;
+      --border: #2a2a3a;
+      --accent: #7c6dfa;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --accent4: #f59e0b;
+      --text: #e2e0ff;
+      --muted: #8884aa;
+      --danger: #f87171;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      height: 62px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .api-badge {
+      font-size: 0.7rem;
+      background: #7c6dfa22;
+      color: var(--accent);
+      border: 1px solid #7c6dfa44;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .tab {
+      padding: 7px 18px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab:hover { color: var(--text); background: var(--surface2); }
+
+    .tab.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 12px #7c6dfa44;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent3);
+      box-shadow: 0 0 6px var(--accent3);
+      margin-left: 12px;
+    }
+
+    .status-dot.offline {
+      background: var(--danger);
+      box-shadow: 0 0 6px var(--danger);
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .section-header { margin-bottom: 1.5rem; }
+    .section-header h2 { font-size: 1.5rem; font-weight: 700; }
+    .section-header p { color: var(--muted); font-size: 0.875rem; margin-top: 4px; }
+
+    /* ── FILTERS ── */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 9px 14px;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .filter-bar input::placeholder { color: var(--muted); }
+    .filter-bar input:focus,
+    .filter-bar select:focus { border-color: var(--accent); }
+    .filter-bar select option { background: var(--surface2); }
+
+    .btn-refresh {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+
+    .btn-refresh:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .stat-card .value { font-size: 1.75rem; font-weight: 800; color: var(--accent2); }
+    .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── CARDS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .card.skill-card::before   { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .card.project-card::before { background: linear-gradient(90deg, var(--accent3), #0ea5e9); }
+    .card.app-card::before     { background: linear-gradient(90deg, var(--accent4), #f87171); }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .avatar {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .av-purple { background: #7c6dfa22; color: var(--accent2); }
+    .av-green  { background: #34d39922; color: var(--accent3); }
+    .av-amber  { background: #f59e0b22; color: var(--accent4); }
+
+    .card-title { font-weight: 600; font-size: 0.975rem; line-height: 1.3; }
+    .card-sub   { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .badge-green { background: #34d39922; color: var(--accent3); }
+    .badge-amber { background: #f59e0b22; color: var(--accent4); }
+    .badge-red   { background: #f8717122; color: var(--danger); }
+    .badge-gray  { background: #ffffff11; color: var(--muted); }
+
+    .divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .info-row strong { color: var(--text); }
+
+    /* ── SKILL TAGS ── */
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+    .skill-tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-size: 0.73rem;
+      color: var(--muted);
+    }
+
+    .lvl {
+      font-size: 0.65rem;
+      margin-left: 4px;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .lvl-bajo       { background: #f8717122; color: var(--danger); }
+    .lvl-intermedio { background: #f59e0b22; color: var(--accent4); }
+    .lvl-avanzado   { background: #34d39922; color: var(--accent3); }
+
+    /* ── STATES ── */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty-state { text-align: center; padding: 3rem; color: var(--muted); }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 8px; }
+
+    .error-banner {
+      background: #f8717115;
+      border: 1px solid #f8717144;
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: var(--danger);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .error-banner.show { display: block; }
+
+    .endpoint-pill {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: monospace;
+      margin-bottom: 1.2rem;
+    }
+
+    .method { color: var(--accent3); font-weight: 700; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      main { padding: 1rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════ NAVBAR ════ -->
+  <nav>
+    <div class="brand">
+      ⚡ FreelancerAPI
+      <div class="api-badge">REST</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="tab-skills">
+        🎯 Por Habilidad
+      </button>
+      <button class="tab" id="tab-projects">
+        📂 Proyectos
+      </button>
+      <button class="tab" id="tab-applications">
+        📋 Aplicaciones
+      </button>
+    </div>
+
+    <div class="status-dot" id="statusDot" title="Estado API"></div>
+  </nav>
+
+  <!-- ════ MAIN ════ -->
+  <main>
+
+    <!-- ── SECCIÓN 1: FREELANCERS POR HABILIDAD ── -->
+    <section class="section active" id="section-skills">
+      <div class="section-header">
+        <h2>Freelancers por Habilidad</h2>
+        <p>Filtra freelancers según habilidades, nivel y años de experiencia</p>
+      </div>
+
+      <div class="endpoint-pill">
+        <span class="method">GET</span> /freelancer-habilidades
+      </div>
+
+      <div class="filter-bar">
+        <input
+          id="searchFreelancer"
+          type="text"
+          placeholder="🔍 Buscar freelancer o habilidad…"
+          style="flex:1; min-width:180px"
+        />
+        <select id="filterNivel">
+          <option value="">Todos los niveles</option>
+          <option value="bajo">Bajo</option>
+          <option value="intermedio">Intermedio</option>
+          <option value="avanzado">Avanzado</option>
+        </select>
+        <button class="btn-refresh" id="btnRefreshSkills">↻ Actualizar</button>
+      </div>
+
+      <div class="stats-row" id="statsSkills"></div>
+      <div class="error-banner" id="errSkills"></div>
+      <div id="skillsContainer">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECCIÓN 2: PROYECTOS ACTIVOS ── -->
+    <section class="section" id="section-projects">
+      <div class="section-header">
+        <h2>Proyectos Activos</h2>
+        <p>Todos los proyectos publicados con su estado actual</p>
+      </div>
+
+      <div class="endpoint-pill">
+        <span class="method">GET</span> /proyectos
+      </div>
+
+      <div class="filter-bar">
+        <input
+          id="searchProject"
+          type="text"
+          placeholder="🔍 Buscar proyecto o cliente…"
+          style="flex:1; min-width:180px"
+        />
+        <select id="filterEstado">
+          <option value="">Todos los estados</option>
+          <option value="activo">Activo</option>
+          <option value="en_progreso">En Progreso</option>
+          <option value="cerrado">Cerrado</option>
+        </select>
+        <button class="btn-refresh" id="btnRefreshProjects">↻ Actualizar</button>
+      </div>
+
+      <div class="stats-row" id="statsProjects"></div>
+      <div class="error-banner" id="errProjects"></div>
+      <div id="projectsContainer">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SECCIÓN 3: APLICACIONES POR PROYECTO ── -->
+    <section class="section" id="section-applications">
+      <div class="section-header">
+        <h2>Aplicaciones por Proyecto</h2>
+        <p>Postulaciones de freelancers agrupadas por proyecto</p>
+      </div>
+
+      <div class="endpoint-pill">
+        <span class="method">GET</span> /aplicaciones
+      </div>
+
+      <div class="filter-bar">
+        <input
+          id="searchApp"
+          type="text"
+          placeholder="🔍 Buscar freelancer o proyecto…"
+          style="flex:1; min-width:180px"
+        />
+        <select id="filterAppEstado">
+          <option value="">Todos los estados</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="aceptado">Aceptado</option>
+          <option value="rechazado">Rechazado</option>
+        </select>
+        <button class="btn-refresh" id="btnRefreshApps">↻ Actualizar</button>
+      </div>
+
+      <div class="stats-row" id="statsApps"></div>
+      <div class="error-banner" id="errApps"></div>
+      <div id="applicationsContainer">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando…</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const API = 'http://localhost:3005';
+    let rawSkills = [];
+    let rawProjects = [];
+    let rawApplications = [];
+
+    /* ── TABS ── */
+    function showTab(name) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('section-' + name).classList.add('active');
+      document.getElementById('tab-' + name).classList.add('active');
+    }
+
+    /* ── API STATUS ── */
+    async function checkStatus() {
+      try {
+        const r = await fetch(API + '/', { signal: AbortSignal.timeout(3000) });
+        document.getElementById('statusDot').classList.toggle('offline', !r.ok);
+      } catch {
+        document.getElementById('statusDot').classList.add('offline');
+      }
+    }
+
+    /* ── FETCH HELPER ── */
+    async function apiFetch(path) {
+      const r = await fetch(API + path, { signal: AbortSignal.timeout(8000) });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }
+
+    function showErr(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = '⚠️ ' + msg;
+      el.classList.add('show');
+    }
+
+    function hideErr(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    function renderStats(id, stats) {
+      document.getElementById(id).innerHTML = stats.map(s => `
+        <div class="stat-card">
+          <div class="value">${s.value}</div>
+          <div class="label">${s.label}</div>
+        </div>
+      `).join('');
+    }
+
+    /* ════ SECCIÓN 1 — HABILIDADES ════ */
+    async function loadSkills() {
+      hideErr('errSkills');
+      document.getElementById('skillsContainer').innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando…</span>
+        </div>`;
+
+      try {
+        const data = await apiFetch('/freelancer-habilidades');
+        rawSkills = data.relaciones || [];
+
+        renderStats('statsSkills', [
+          { value: rawSkills.length, label: 'Relaciones' },
+          { value: [...new Set(rawSkills.map(r => r.id_freelancer))].length, label: 'Freelancers' },
+          { value: rawSkills.filter(r => r.nivel === 'avanzado').length, label: 'Avanzados' },
+          { value: rawSkills.filter(r => r.nivel === 'intermedio').length, label: 'Intermedios' },
+        ]);
+
+        filterSkills();
+      } catch (e) {
+        showErr('errSkills', e.message + ' — ¿El servidor corre en :3005?');
+        document.getElementById('skillsContainer').innerHTML = '';
+      }
+    }
+
+    function filterSkills() {
+      const q   = document.getElementById('searchFreelancer').value.toLowerCase();
+      const lvl = document.getElementById('filterNivel').value;
+
+      const list = rawSkills.filter(r => {
+        const nombre   = (r.freelancers?.nombre || '').toLowerCase();
+        const habilidad = (r.habilidades?.nombre || '').toLowerCase();
+        return (!q || nombre.includes(q) || habilidad.includes(q))
+            && (!lvl || r.nivel === lvl);
+      });
+
+      const c = document.getElementById('skillsContainer');
+
+      if (!list.length) {
+        c.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Sin resultados</p></div>';
+        return;
+      }
+
+      // Agrupar por freelancer
+      const byF = {};
+      list.forEach(r => {
+        if (!byF[r.id_freelancer]) {
+          byF[r.id_freelancer] = {
+            name: r.freelancers?.nombre || 'Freelancer #' + r.id_freelancer,
+            skills: []
+          };
+        }
+        byF[r.id_freelancer].skills.push(r);
+      });
+
+      c.innerHTML = '<div class="cards-grid">' +
+        Object.entries(byF).map(([id, f]) => {
+          const init = f.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+          const tags = f.skills.map(s => `
+            <span class="skill-tag">
+              ${s.habilidades?.nombre || 'N/A'}
+              <span class="lvl lvl-${s.nivel || 'bajo'}">${s.nivel || '?'}</span>
+              · ${s.anios_experiencia || 0}a
+            </span>
+          `).join('');
+
+          return `
+            <div class="card skill-card">
+              <div class="card-header">
+                <div class="avatar av-purple">${init}</div>
+                <div>
+                  <div class="card-title">${f.name}</div>
+                  <div class="card-sub">${f.skills.length} habilidad${f.skills.length !== 1 ? 'es' : ''}</div>
+                </div>
+              </div>
+              <div class="skill-tags">${tags}</div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
+    /* ════ SECCIÓN 2 — PROYECTOS ════ */
+    async function loadProjects() {
+      hideErr('errProjects');
+      document.getElementById('projectsContainer').innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando…</span>
+        </div>`;
+
+      try {
+        const data = await apiFetch('/proyectos');
+        rawProjects = data.proyectos || [];
+
+        renderStats('statsProjects', [
+          { value: rawProjects.length, label: 'Total' },
+          { value: rawProjects.filter(p => p.estado === 'activo').length, label: 'Activos' },
+          { value: rawProjects.filter(p => p.estado === 'en_progreso').length, label: 'En Progreso' },
+          { value: rawProjects.filter(p => p.estado === 'cerrado').length, label: 'Cerrados' },
+        ]);
+
+        filterProjects();
+      } catch (e) {
+        showErr('errProjects', e.message);
+        document.getElementById('projectsContainer').innerHTML = '';
+      }
+    }
+
+    function filterProjects() {
+      const q  = document.getElementById('searchProject').value.toLowerCase();
+      const st = document.getElementById('filterEstado').value;
+
+      const list = rawProjects.filter(p =>
+        (!q  || (p.titulo || '').toLowerCase().includes(q) || (p.clientes?.nombre || '').toLowerCase().includes(q))
+        && (!st || p.estado === st)
+      );
+
+      const c = document.getElementById('projectsContainer');
+
+      if (!list.length) {
+        c.innerHTML = '<div class="empty-state"><div class="icon">📂</div><p>Sin proyectos para ese filtro</p></div>';
+        return;
+      }
+
+      const badges = {
+        activo:      '<span class="badge badge-green">● Activo</span>',
+        en_progreso: '<span class="badge badge-amber">● En Progreso</span>',
+        cerrado:     '<span class="badge badge-gray">● Cerrado</span>',
+      };
+
+      c.innerHTML = '<div class="cards-grid">' +
+        list.map(p => {
+          const budget = p.presupuesto
+            ? '$' + Number(p.presupuesto).toLocaleString('es-MX')
+            : 'Sin presupuesto';
+
+          const fecha = p.fecha_publicacion
+            ? new Date(p.fecha_publicacion).toLocaleDateString('es-MX', {
+                day: '2-digit', month: 'short', year: 'numeric'
+              })
+            : '—';
+
+          const desc = (p.descripcion || 'Sin descripción.')
+            .slice(0, 110) + (p.descripcion?.length > 110 ? '…' : '');
+
+          return `
+            <div class="card project-card">
+              <div class="card-header">
+                <div class="avatar av-green">📂</div>
+                <div>
+                  <div class="card-title">${p.titulo}</div>
+                  <div class="card-sub">👤 ${p.clientes?.nombre || 'Desconocido'}</div>
+                </div>
+              </div>
+              ${badges[p.estado] || '<span class="badge badge-gray">?</span>'}
+              <div class="divider"></div>
+              <div class="info-row">💰 <strong>${budget}</strong></div>
+              <div class="info-row">📅 <strong>${fecha}</strong></div>
+              <div class="info-row" style="margin-top:10px; color:var(--muted); font-size:.8rem; line-height:1.4">
+                ${desc}
+              </div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
+    /* ════ SECCIÓN 3 — APLICACIONES ════ */
+    async function loadApplications() {
+      hideErr('errApps');
+      document.getElementById('applicationsContainer').innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Cargando…</span>
+        </div>`;
+
+      try {
+        const data = await apiFetch('/aplicaciones');
+        rawApplications = data.aplicaciones || [];
+
+        renderStats('statsApps', [
+          { value: rawApplications.length, label: 'Total' },
+          { value: rawApplications.filter(a => a.estado === 'pendiente').length, label: 'Pendientes' },
+          { value: rawApplications.filter(a => a.estado === 'aceptado').length, label: 'Aceptadas' },
+          { value: rawApplications.filter(a => a.estado === 'rechazado').length, label: 'Rechazadas' },
+        ]);
+
+        filterApplications();
+      } catch (e) {
+        showErr('errApps', e.message);
+        document.getElementById('applicationsContainer').innerHTML = '';
+      }
+    }
+
+    function filterApplications() {
+      const q  = document.getElementById('searchApp').value.toLowerCase();
+      const st = document.getElementById('filterAppEstado').value;
+
+      const list = rawApplications.filter(a =>
+        (!q  || (a.freelancers?.nombre || '').toLowerCase().includes(q)
+             || (a.proyectos?.titulo   || '').toLowerCase().includes(q))
+        && (!st || a.estado === st)
+      );
+
+      // Agrupar por proyecto
+      const byP = {};
+      list.forEach(a => {
+        if (!byP[a.id_proyecto]) {
+          byP[a.id_proyecto] = {
+            title: a.proyectos?.titulo || 'Proyecto #' + a.id_proyecto,
+            apps: []
+          };
+        }
+        byP[a.id_proyecto].apps.push(a);
+      });
+
+      const c      = document.getElementById('applicationsContainer');
+      const groups = Object.values(byP);
+
+      if (!groups.length) {
+        c.innerHTML = '<div class="empty-state"><div class="icon">📋</div><p>Sin aplicaciones para ese filtro</p></div>';
+        return;
+      }
+
+      const statBadges = {
+        pendiente: '<span class="badge badge-amber">⏳ Pendiente</span>',
+        aceptado:  '<span class="badge badge-green">✅ Aceptado</span>',
+        rechazado: '<span class="badge badge-red">❌ Rechazado</span>',
+      };
+
+      c.innerHTML = '<div style="display:flex; flex-direction:column; gap:20px">' +
+        groups.map(g => {
+          const cards = g.apps.map(a => {
+            const init = (a.freelancers?.nombre || 'F')
+              .split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+            const msg = (a.mensaje_propuesta || '').slice(0, 120)
+              || '<em style="color:var(--muted)">Sin mensaje</em>';
+
+            return `
+              <div class="card app-card">
+                <div class="card-header" style="margin-bottom:8px">
+                  <div class="avatar av-amber">${init}</div>
+                  <div>
+                    <div class="card-title">${a.freelancers?.nombre || 'Freelancer'}</div>
+                    <div class="card-sub">${a.freelancers?.correo || ''}</div>
+                  </div>
+                  <div style="margin-left:auto">${statBadges[a.estado] || ''}</div>
+                </div>
+                <div style="font-size:.8rem; color:var(--muted); line-height:1.45">${msg}</div>
+              </div>`;
+          }).join('');
+
+          return `
+            <div>
+              <div style="font-size:.85rem; font-weight:700; color:var(--accent2);
+                          margin-bottom:10px; display:flex; align-items:center; gap:8px">
+                <span>📂 ${g.title}</span>
+                <span style="background:var(--surface); border:1px solid var(--border);
+                             border-radius:20px; padding:2px 10px;
+                             font-size:.72rem; color:var(--muted)">
+                  ${g.apps.length} aplicacion${g.apps.length !== 1 ? 'es' : ''}
+                </span>
+              </div>
+              <div class="cards-grid">${cards}</div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
+    /* ── INIT ── */
+
+    // Inputs
+    document.getElementById('searchFreelancer').addEventListener('input', filterSkills);
+    document.getElementById('searchProject').addEventListener('input', filterProjects);
+    document.getElementById('searchApp').addEventListener('input', filterApplications);
+
+    // Selects
+    document.getElementById('filterNivel').addEventListener('change', filterSkills);
+    document.getElementById('filterEstado').addEventListener('change', filterProjects);
+    document.getElementById('filterAppEstado').addEventListener('change', filterApplications);
+
+    // Botones
+    document.getElementById('btnRefreshSkills').addEventListener('click', loadSkills);
+    document.getElementById('btnRefreshProjects').addEventListener('click', loadProjects);
+    document.getElementById('btnRefreshApps').addEventListener('click', loadApplications);
+
+    // Tabs
+    document.getElementById('tab-skills').addEventListener('click', () => showTab('skills'));
+    document.getElementById('tab-projects').addEventListener('click', () => showTab('projects'));
+    document.getElementById('tab-applications').addEventListener('click', () => showTab('applications'));
+
+    checkStatus();
+    setInterval(checkStatus, 15000);
+    loadSkills();
+    loadProjects();
+    loadApplications();
+  </script>
+
+</body>
+</html>
