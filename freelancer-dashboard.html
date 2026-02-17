@@ -484,10 +484,11 @@
   </main>
 
   <script>
-    const API = 'http://localhost:3005';
-    let rawSkills = [];
-    let rawProjects = [];
-    let rawApplications = [];
+const API = location.hostname === "localhost"
+  ? "http://localhost:3005"
+  : "https://apifreelance-production.up.railway.app";
+
+
 
     /* ── TABS ── */
     function showTab(name) {
