@@ -434,6 +434,17 @@ app.post('/freelancer-habilidades', async (req, res) => {
   }
 });
 
+const path = require('path');
+
+// servir archivos estáticos del proyecto
+app.use(express.static(__dirname));
+
+// ruta amigable del dashboard
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'freelancer-dashboard.html'));
+});
+
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
