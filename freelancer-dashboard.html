@@ -28,7 +28,7 @@
       min-height: 100vh;
     }
 
-    /* ── NAV ── */
+    /* â”€â”€ NAV â”€â”€ */
     nav {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -106,7 +106,7 @@
       box-shadow: 0 0 6px var(--danger);
     }
 
-    /* ── LAYOUT ── */
+    /* â”€â”€ LAYOUT â”€â”€ */
     main {
       max-width: 1200px;
       margin: 0 auto;
@@ -120,7 +120,7 @@
     .section-header h2 { font-size: 1.5rem; font-weight: 700; }
     .section-header p { color: var(--muted); font-size: 0.875rem; margin-top: 4px; }
 
-    /* ── FILTERS ── */
+    /* â”€â”€ FILTERS â”€â”€ */
     .filter-bar {
       display: flex;
       gap: 10px;
@@ -161,7 +161,7 @@
 
     .btn-refresh:hover { background: var(--accent2); transform: translateY(-1px); }
 
-    /* ── STATS ── */
+    /* â”€â”€ STATS â”€â”€ */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -179,7 +179,7 @@
     .stat-card .value { font-size: 1.75rem; font-weight: 800; color: var(--accent2); }
     .stat-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
-    /* ── CARDS ── */
+    /* â”€â”€ CARDS â”€â”€ */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
@@ -233,7 +233,7 @@
     .card-title { font-weight: 600; font-size: 0.975rem; line-height: 1.3; }
     .card-sub   { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
 
-    /* ── BADGES ── */
+    /* â”€â”€ BADGES â”€â”€ */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -263,7 +263,7 @@
 
     .info-row strong { color: var(--text); }
 
-    /* ── SKILL TAGS ── */
+    /* â”€â”€ SKILL TAGS â”€â”€ */
     .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 
     .skill-tag {
@@ -286,7 +286,7 @@
     .lvl-intermedio { background: #f59e0b22; color: var(--accent4); }
     .lvl-avanzado   { background: #34d39922; color: var(--accent3); }
 
-    /* ── STATES ── */
+    /* â”€â”€ STATES â”€â”€ */
     .loading-state {
       display: flex;
       flex-direction: column;
@@ -345,36 +345,36 @@
 </head>
 <body>
 
-  <!-- ════ NAVBAR ════ -->
+  <!-- â•â•â•â• NAVBAR â•â•â•â• -->
   <nav>
     <div class="brand">
-      ⚡ FreelancerAPI
+      âš¡ FreelancerAPI
       <div class="api-badge">REST</div>
     </div>
 
     <div class="tabs">
       <button class="tab active" id="tab-skills">
-        🎯 Por Habilidad
+        ðŸŽ¯ Por Habilidad
       </button>
       <button class="tab" id="tab-projects">
-        📂 Proyectos
+        ðŸ“‚ Proyectos
       </button>
       <button class="tab" id="tab-applications">
-        📋 Aplicaciones
+        ðŸ“‹ Aplicaciones
       </button>
     </div>
 
     <div class="status-dot" id="statusDot" title="Estado API"></div>
   </nav>
 
-  <!-- ════ MAIN ════ -->
+  <!-- â•â•â•â• MAIN â•â•â•â• -->
   <main>
 
-    <!-- ── SECCIÓN 1: FREELANCERS POR HABILIDAD ── -->
+    <!-- â”€â”€ SECCIÃ“N 1: FREELANCERS POR HABILIDAD â”€â”€ -->
     <section class="section active" id="section-skills">
       <div class="section-header">
         <h2>Freelancers por Habilidad</h2>
-        <p>Filtra freelancers según habilidades, nivel y años de experiencia</p>
+        <p>Filtra freelancers segÃºn habilidades, nivel y aÃ±os de experiencia</p>
       </div>
 
       <div class="endpoint-pill">
@@ -385,7 +385,7 @@
         <input
           id="searchFreelancer"
           type="text"
-          placeholder="🔍 Buscar freelancer o habilidad…"
+          placeholder="ðŸ” Buscar freelancer o habilidadâ€¦"
           style="flex:1; min-width:180px"
         />
         <select id="filterNivel">
@@ -394,7 +394,7 @@
           <option value="intermedio">Intermedio</option>
           <option value="avanzado">Avanzado</option>
         </select>
-        <button class="btn-refresh" id="btnRefreshSkills">↻ Actualizar</button>
+        <button class="btn-refresh" id="btnRefreshSkills">â†» Actualizar</button>
       </div>
 
       <div class="stats-row" id="statsSkills"></div>
@@ -402,12 +402,12 @@
       <div id="skillsContainer">
         <div class="loading-state">
           <div class="spinner"></div>
-          <span>Cargando…</span>
+          <span>Cargandoâ€¦</span>
         </div>
       </div>
     </section>
 
-    <!-- ── SECCIÓN 2: PROYECTOS ACTIVOS ── -->
+    <!-- â”€â”€ SECCIÃ“N 2: PROYECTOS ACTIVOS â”€â”€ -->
     <section class="section" id="section-projects">
       <div class="section-header">
         <h2>Proyectos Activos</h2>
@@ -422,7 +422,7 @@
         <input
           id="searchProject"
           type="text"
-          placeholder="🔍 Buscar proyecto o cliente…"
+          placeholder="ðŸ” Buscar proyecto o clienteâ€¦"
           style="flex:1; min-width:180px"
         />
         <select id="filterEstado">
@@ -431,7 +431,7 @@
           <option value="en_progreso">En Progreso</option>
           <option value="cerrado">Cerrado</option>
         </select>
-        <button class="btn-refresh" id="btnRefreshProjects">↻ Actualizar</button>
+        <button class="btn-refresh" id="btnRefreshProjects">â†» Actualizar</button>
       </div>
 
       <div class="stats-row" id="statsProjects"></div>
@@ -439,12 +439,12 @@
       <div id="projectsContainer">
         <div class="loading-state">
           <div class="spinner"></div>
-          <span>Cargando…</span>
+          <span>Cargandoâ€¦</span>
         </div>
       </div>
     </section>
 
-    <!-- ── SECCIÓN 3: APLICACIONES POR PROYECTO ── -->
+    <!-- â”€â”€ SECCIÃ“N 3: APLICACIONES POR PROYECTO â”€â”€ -->
     <section class="section" id="section-applications">
       <div class="section-header">
         <h2>Aplicaciones por Proyecto</h2>
@@ -459,7 +459,7 @@
         <input
           id="searchApp"
           type="text"
-          placeholder="🔍 Buscar freelancer o proyecto…"
+          placeholder="ðŸ” Buscar freelancer o proyectoâ€¦"
           style="flex:1; min-width:180px"
         />
         <select id="filterAppEstado">
@@ -468,7 +468,7 @@
           <option value="aceptado">Aceptado</option>
           <option value="rechazado">Rechazado</option>
         </select>
-        <button class="btn-refresh" id="btnRefreshApps">↻ Actualizar</button>
+        <button class="btn-refresh" id="btnRefreshApps">â†» Actualizar</button>
       </div>
 
       <div class="stats-row" id="statsApps"></div>
@@ -476,7 +476,7 @@
       <div id="applicationsContainer">
         <div class="loading-state">
           <div class="spinner"></div>
-          <span>Cargando…</span>
+          <span>Cargandoâ€¦</span>
         </div>
       </div>
     </section>
@@ -484,13 +484,12 @@
   </main>
 
   <script>
-const API = location.hostname === "localhost"
-  ? "http://localhost:3005"
-  : "https://apifreelance-production.up.railway.app";
+const API = "https://apifreelance-production.up.railway.app";
 
 
 
-    /* ── TABS ── */
+
+    /* â”€â”€ TABS â”€â”€ */
     function showTab(name) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -498,7 +497,7 @@ const API = location.hostname === "localhost"
       document.getElementById('tab-' + name).classList.add('active');
     }
 
-    /* ── API STATUS ── */
+    /* â”€â”€ API STATUS â”€â”€ */
     async function checkStatus() {
       try {
         const r = await fetch(API + '/', { signal: AbortSignal.timeout(3000) });
@@ -508,7 +507,7 @@ const API = location.hostname === "localhost"
       }
     }
 
-    /* ── FETCH HELPER ── */
+    /* â”€â”€ FETCH HELPER â”€â”€ */
     async function apiFetch(path) {
       const r = await fetch(API + path, { signal: AbortSignal.timeout(8000) });
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -517,7 +516,7 @@ const API = location.hostname === "localhost"
 
     function showErr(id, msg) {
       const el = document.getElementById(id);
-      el.textContent = '⚠️ ' + msg;
+      el.textContent = 'âš ï¸ ' + msg;
       el.classList.add('show');
     }
 
@@ -534,13 +533,13 @@ const API = location.hostname === "localhost"
       `).join('');
     }
 
-    /* ════ SECCIÓN 1 — HABILIDADES ════ */
+    /* â•â•â•â• SECCIÃ“N 1 â€” HABILIDADES â•â•â•â• */
     async function loadSkills() {
       hideErr('errSkills');
       document.getElementById('skillsContainer').innerHTML = `
         <div class="loading-state">
           <div class="spinner"></div>
-          <span>Cargando…</span>
+          <span>Cargandoâ€¦</span>
         </div>`;
 
       try {
@@ -556,7 +555,7 @@ const API = location.hostname === "localhost"
 
         filterSkills();
       } catch (e) {
-        showErr('errSkills', e.message + ' — ¿El servidor corre en :3005?');
+        showErr('errSkills', e.message + ' â€” Â¿El servidor corre en :3005?');
         document.getElementById('skillsContainer').innerHTML = '';
       }
     }
@@ -575,7 +574,7 @@ const API = location.hostname === "localhost"
       const c = document.getElementById('skillsContainer');
 
       if (!list.length) {
-        c.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Sin resultados</p></div>';
+        c.innerHTML = '<div class="empty-state"><div class="icon">ðŸ”</div><p>Sin resultados</p></div>';
         return;
       }
 
@@ -598,7 +597,7 @@ const API = location.hostname === "localhost"
             <span class="skill-tag">
               ${s.habilidades?.nombre || 'N/A'}
               <span class="lvl lvl-${s.nivel || 'bajo'}">${s.nivel || '?'}</span>
-              · ${s.anios_experiencia || 0}a
+              Â· ${s.anios_experiencia || 0}a
             </span>
           `).join('');
 
@@ -616,13 +615,13 @@ const API = location.hostname === "localhost"
         }).join('') + '</div>';
     }
 
-    /* ════ SECCIÓN 2 — PROYECTOS ════ */
+    /* â•â•â•â• SECCIÃ“N 2 â€” PROYECTOS â•â•â•â• */
     async function loadProjects() {
       hideErr('errProjects');
       document.getElementById('projectsContainer').innerHTML = `
         <div class="loading-state">
           <div class="spinner"></div>
-          <span>Cargando…</span>
+          <span>Cargandoâ€¦</span>
         </div>`;
 
       try {
@@ -655,14 +654,14 @@ const API = location.hostname === "localhost"
       const c = document.getElementById('projectsContainer');
 
       if (!list.length) {
-        c.innerHTML = '<div class="empty-state"><div class="icon">📂</div><p>Sin proyectos para ese filtro</p></div>';
+        c.innerHTML = '<div class="empty-state"><div class="icon">ðŸ“‚</div><p>Sin proyectos para ese filtro</p></div>';
         return;
       }
 
       const badges = {
-        activo:      '<span class="badge badge-green">● Activo</span>',
-        en_progreso: '<span class="badge badge-amber">● En Progreso</span>',
-        cerrado:     '<span class="badge badge-gray">● Cerrado</span>',
+        activo:      '<span class="badge badge-green">â— Activo</span>',
+        en_progreso: '<span class="badge badge-amber">â— En Progreso</span>',
+        cerrado:     '<span class="badge badge-gray">â— Cerrado</span>',
       };
 
       c.innerHTML = '<div class="cards-grid">' +
@@ -675,24 +674,24 @@ const API = location.hostname === "localhost"
             ? new Date(p.fecha_publicacion).toLocaleDateString('es-MX', {
                 day: '2-digit', month: 'short', year: 'numeric'
               })
-            : '—';
+            : 'â€”';
 
-          const desc = (p.descripcion || 'Sin descripción.')
-            .slice(0, 110) + (p.descripcion?.length > 110 ? '…' : '');
+          const desc = (p.descripcion || 'Sin descripciÃ³n.')
+            .slice(0, 110) + (p.descripcion?.length > 110 ? 'â€¦' : '');
 
           return `
             <div class="card project-card">
               <div class="card-header">
-                <div class="avatar av-green">📂</div>
+                <div class="avatar av-green">ðŸ“‚</div>
                 <div>
                   <div class="card-title">${p.titulo}</div>
-                  <div class="card-sub">👤 ${p.clientes?.nombre || 'Desconocido'}</div>
+                  <div class="card-sub">ðŸ‘¤ ${p.clientes?.nombre || 'Desconocido'}</div>
                 </div>
               </div>
               ${badges[p.estado] || '<span class="badge badge-gray">?</span>'}
               <div class="divider"></div>
-              <div class="info-row">💰 <strong>${budget}</strong></div>
-              <div class="info-row">📅 <strong>${fecha}</strong></div>
+              <div class="info-row">ðŸ’° <strong>${budget}</strong></div>
+              <div class="info-row">ðŸ“… <strong>${fecha}</strong></div>
               <div class="info-row" style="margin-top:10px; color:var(--muted); font-size:.8rem; line-height:1.4">
                 ${desc}
               </div>
@@ -700,13 +699,13 @@ const API = location.hostname === "localhost"
         }).join('') + '</div>';
     }
 
-    /* ════ SECCIÓN 3 — APLICACIONES ════ */
+    /* â•â•â•â• SECCIÃ“N 3 â€” APLICACIONES â•â•â•â• */
     async function loadApplications() {
       hideErr('errApps');
       document.getElementById('applicationsContainer').innerHTML = `
         <div class="loading-state">
           <div class="spinner"></div>
-          <span>Cargando…</span>
+          <span>Cargandoâ€¦</span>
         </div>`;
 
       try {
@@ -753,14 +752,14 @@ const API = location.hostname === "localhost"
       const groups = Object.values(byP);
 
       if (!groups.length) {
-        c.innerHTML = '<div class="empty-state"><div class="icon">📋</div><p>Sin aplicaciones para ese filtro</p></div>';
+        c.innerHTML = '<div class="empty-state"><div class="icon">ðŸ“‹</div><p>Sin aplicaciones para ese filtro</p></div>';
         return;
       }
 
       const statBadges = {
-        pendiente: '<span class="badge badge-amber">⏳ Pendiente</span>',
-        aceptado:  '<span class="badge badge-green">✅ Aceptado</span>',
-        rechazado: '<span class="badge badge-red">❌ Rechazado</span>',
+        pendiente: '<span class="badge badge-amber">â³ Pendiente</span>',
+        aceptado:  '<span class="badge badge-green">âœ… Aceptado</span>',
+        rechazado: '<span class="badge badge-red">âŒ Rechazado</span>',
       };
 
       c.innerHTML = '<div style="display:flex; flex-direction:column; gap:20px">' +
@@ -790,7 +789,7 @@ const API = location.hostname === "localhost"
             <div>
               <div style="font-size:.85rem; font-weight:700; color:var(--accent2);
                           margin-bottom:10px; display:flex; align-items:center; gap:8px">
-                <span>📂 ${g.title}</span>
+                <span>ðŸ“‚ ${g.title}</span>
                 <span style="background:var(--surface); border:1px solid var(--border);
                              border-radius:20px; padding:2px 10px;
                              font-size:.72rem; color:var(--muted)">
@@ -802,7 +801,7 @@ const API = location.hostname === "localhost"
         }).join('') + '</div>';
     }
 
-    /* ── INIT ── */
+    /* â”€â”€ INIT â”€â”€ */
 
     // Inputs
     document.getElementById('searchFreelancer').addEventListener('input', filterSkills);
